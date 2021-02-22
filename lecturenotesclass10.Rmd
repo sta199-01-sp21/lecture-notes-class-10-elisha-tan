@@ -60,7 +60,7 @@ xtabs(~ Treatment + Improved, data = Arthritis) %>%
   
 - What is the probability a randomly selected patient received the placebo
   and the treatment?
-  *0%, because a patient cannot receive both the treatment and the placebo*
+  *0%, because a patient cannot receive both the treatment and the placebo. This is a disjoint probability.*
   
 - What is the probability a randomly selected patient had some improvement or was on the treatment?
   *(14 + 34) / 84 = 0.5714 x 100% = 57.14% chance that a randomly selected patient had some improvement or was on the treatment*
@@ -98,6 +98,7 @@ experiment.
 ```{r simulate_draws}
 draw_results <- sample(marbles, size = 10000, replace = TRUE)
 ```
+*Default: replace = FALSE*
 
 ```{r summarize_draws}
 counts <- table(draw_results)
@@ -160,17 +161,28 @@ difference between dice roll 1 and dice roll 2 is equal to 4.
 Perform a simulation to compute this empirical probability.
 
 Write down your guess to the answer before you calculate it.
-
+*I would predict that the absolute valued difference being 2 would have a higher probability of occurring*
 ```{r simulate_rolls}
-
+dice <- c(1,2,3,4,5,6)
+two_roll_results <- tibble(
+  roll_1 = sample(dice, size = 10000, replace = TRUE),
+  roll_2 = sample(dice, size = 10000, replace = TRUE)
+)
+two_roll_results
 ```
 
 ```{r identify_events}
-
+two_roll_results <- two_roll_results %>% 
+  mutate(square_1 = roll_1^2 == roll_2) %>%
+  mutate(abs_diff = abs(roll_1 - roll_2) == 4)
+two_roll_results
 ```
 
 ```{r summarize_rolls}
-
+two_roll_results <- two_roll_results %>%
+  summarise(square_prob = mean(square_1),
+            abs_prob = mean(abs_diff))
+two_roll_results
 ```
 
 ## Additional Resources-please look at before Weds.
