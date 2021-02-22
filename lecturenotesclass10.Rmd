@@ -184,6 +184,7 @@ two_roll_results <- two_roll_results %>%
             abs_prob = mean(abs_diff))
 two_roll_results
 ```
+*The second event was indeed more likely to occur*
 
 ## Additional Resources-please look at before Weds.
 
